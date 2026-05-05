@@ -25,6 +25,9 @@
                     <x-nav-link :href="route('results.index')" :active="request()->routeIs('results.*')" class="text-gray-300 hover:text-white hover:border-indigo-400 focus:border-indigo-400 font-medium transition-colors">
                         {{ __('Students & Marks') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.*')" class="text-gray-300 hover:text-white hover:border-indigo-400 focus:border-indigo-400 font-medium transition-colors">
+                        {{ __('Subject Config') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('home')" target="_blank" class="text-gray-300 hover:text-white hover:border-indigo-400 font-medium transition-colors flex items-center gap-1">
                         {{ __('Public Portal') }}
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -91,6 +94,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('results.index')" :active="request()->routeIs('results.*')" class="text-gray-300 hover:text-white hover:bg-white/5">
                 {{ __('Students & Marks') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('subjects.index')" :active="request()->routeIs('subjects.*')" class="text-gray-300 hover:text-white hover:bg-white/5">
+                {{ __('Subject Config') }}
             </x-responsive-nav-link>
         </div>
 

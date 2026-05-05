@@ -57,6 +57,12 @@ class AdminController extends Controller
                             $subColumns[trim($subTypes[$i+1])] = $i + 1;
                         }
                         $subjects[$subjectName] = $subColumns;
+                        
+                        // Auto-register subject to management module
+                        \App\Models\BatchSubject::firstOrCreate(
+                            ['batch' => $sheetName, 'name' => $subjectName],
+                            ['max_te' => 100, 'max_ce' => 0, 'pass_mark' => 35]
+                        );
                     }
                 }
 

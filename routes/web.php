@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/clear', [AdminController::class, 'clear'])->name('clear');
 
     Route::resource('results', \App\Http\Controllers\ResultManagementController::class);
+    Route::resource('subjects', \App\Http\Controllers\BatchSubjectController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
