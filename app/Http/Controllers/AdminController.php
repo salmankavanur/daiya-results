@@ -83,18 +83,40 @@ class AdminController extends Controller
                     if (empty($regNo)) continue;
 
                     $marksData = [];
+                    $calculatedTotalObt = 0;
+                    $passedAll = true;
+
                     foreach ($subjects as $subjName => $subCols) {
                         $subjectData = [];
+                        $subjectTotal = 0;
                         foreach ($subCols as $type => $colIdx) {
                             $val = trim($row[$colIdx] ?? '');
                             if ($val !== '') {
                                 $subjectData[$type] = $val;
+                                $subjectTotal += (float) $val;
                             }
                         }
                         if (count($subjectData) > 0) {
                             $marksData[$subjName] = $subjectData;
+                            $calculatedTotalObt += $subjectTotal;
+                            
+                            // Basic pass criteria assumption (>= 35)
+                            if ($subjectTotal > 0 && $subjectTotal < 35) {
+                                $passedAll = false;
+                            }
                         }
                     }
+
+                    // Only process students who actually have marks
+                    if (count($marksData) === 0) continue;
+
+                    $totalPossibleMarks = count($marksData) * 100;
+
+                    $excelTotalMarks = $totalMarksIdx !== null ? trim($row[$totalMarksIdx] ?? '') : '';
+                    $excelTotalObt = $totalObtMarksIdx !== null ? trim($row[$totalObtMarksIdx] ?? '') : '';
+                    $excelDaiyaRank = $daiyaRankIdx !== null ? trim($row[$daiyaRankIdx] ?? '') : '';
+                    $excelCollegeRank = $collegeRankIdx !== null ? trim($row[$collegeRankIdx] ?? '') : '';
+                    $excelStatus = $statusIdx !== null ? trim($row[$statusIdx] ?? '') : '';
 
                     ExamResult::updateOrCreate(
                         ['reg_no' => $regNo],
@@ -102,13 +124,29 @@ class AdminController extends Controller
                             'batch' => $sheetName,
                             'name' => $name,
                             'marks_data' => $marksData,
-                            'total_marks' => $totalMarksIdx !== null ? trim($row[$totalMarksIdx] ?? '') : null,
-                            'total_obt_marks' => $totalObtMarksIdx !== null ? trim($row[$totalObtMarksIdx] ?? '') : null,
-                            'daiya_rank' => $daiyaRankIdx !== null ? trim($row[$daiyaRankIdx] ?? '') : null,
-                            'college_rank' => $collegeRankIdx !== null ? trim($row[$collegeRankIdx] ?? '') : null,
-                            'status' => $statusIdx !== null ? trim($row[$statusIdx] ?? '') : null,
+                            'total_marks' => $excelTotalMarks !== '' ? $excelTotalMarks : $totalPossibleMarks,
+                            'total_obt_marks' => $excelTotalObt !== '' ? $excelTotalObt : $calculatedTotalObt,
+                            'daiya_rank' => $excelDaiyaRank !== '' ? $excelDaiyaRank : null,
+                            'college_rank' => $excelCollegeRank !== '' ? $excelCollegeRank : null,
+                            'status' => $excelStatus !== '' ? $excelStatus : ($passedAll ? 'Passed' : 'Failed'),
                         ]
                     );
+                }
+
+                // Auto-calculate ranks for this batch if empty
+                $batchResults = ExamResult::where('batch', $sheetName)
+                                          ->orderByRaw('CAST(total_obt_marks AS DECIMAL(10,2)) DESC')
+                                          ->get();
+                $rank = 1;
+                foreach ($batchResults as $result) {
+                    $updates = [];
+                    if (empty($result->daiya_rank)) $updates['daiya_rank'] = $rank;
+                    if (empty($result->college_rank)) $updates['college_rank'] = $rank;
+                    
+                    if (!empty($updates)) {
+                        $result->update($updates);
+                    }
+                    $rank++;
                 }
             }
 
