@@ -132,7 +132,7 @@ class AdminController extends Controller
                     } elseif ($lowerExcelStatus === 'fail' || $lowerExcelStatus === 'failed') {
                         $mappedStatus = 'NOT ELIGIBLE';
                     } elseif ($lowerExcelStatus === 'debar') {
-                        $mappedStatus = 'MALLICIOUS ACTIVITY BY THE STUDENT LIKE DOING COPY IN B/W EXAM';
+                        $mappedStatus = 'MALICIOUS/SUSPICIOUS ACTIVITY BY THE STUDENTS LIKE DOING COPY IN B/W EXAM';
                     } elseif ($lowerExcelStatus === 'withheld') {
                         $mappedStatus = 'NO CE MARK FOR SUBJECTS OR NOT COMPLETED TEACHING PRACTICE/THESIS IF THE STUDENT IS A FINAL YEAR STUDENT';
                     }
