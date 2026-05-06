@@ -123,6 +123,19 @@ class AdminController extends Controller
                     $excelDaiyaRank = $daiyaRankIdx !== null ? trim($row[$daiyaRankIdx] ?? '') : '';
                     $excelCollegeRank = $collegeRankIdx !== null ? trim($row[$collegeRankIdx] ?? '') : '';
                     $excelStatus = $statusIdx !== null ? trim($row[$statusIdx] ?? '') : '';
+                    
+                    // Map short excel statuses to full detailed strings
+                    $mappedStatus = $excelStatus;
+                    $lowerExcelStatus = strtolower($excelStatus);
+                    if ($lowerExcelStatus === 'pass' || $lowerExcelStatus === 'passed') {
+                        $mappedStatus = 'PASSED EXAM';
+                    } elseif ($lowerExcelStatus === 'fail' || $lowerExcelStatus === 'failed') {
+                        $mappedStatus = 'NOT ELIGIBLE';
+                    } elseif ($lowerExcelStatus === 'debar') {
+                        $mappedStatus = 'MALLICIOUS ACTIVITY BY THE STUDENT LIKE DOING COPY IN B/W EXAM';
+                    } elseif ($lowerExcelStatus === 'withheld') {
+                        $mappedStatus = 'NO CE MARK FOR SUBJECTS OR NOT COMPLETED TEACHING PRACTICE/THESIS IF THE STUDENT IS A FINAL YEAR STUDENT';
+                    }
 
                     ExamResult::updateOrCreate(
                         ['reg_no' => $regNo],
@@ -134,7 +147,7 @@ class AdminController extends Controller
                             'total_obt_marks' => $excelTotalObt !== '' ? $excelTotalObt : $calculatedTotalObt,
                             'daiya_rank' => $excelDaiyaRank !== '' ? $excelDaiyaRank : null,
                             'college_rank' => $excelCollegeRank !== '' ? $excelCollegeRank : null,
-                            'status' => $excelStatus !== '' ? $excelStatus : ($passedAll ? 'Passed' : 'Failed'),
+                            'status' => $mappedStatus !== '' ? $mappedStatus : ($passedAll ? 'PASSED EXAM' : 'NOT ELIGIBLE'),
                         ]
                     );
                 }
@@ -146,7 +159,8 @@ class AdminController extends Controller
                 
                 $daiyaRank = 1;
                 foreach ($batchResults as $result) {
-                    if (strtolower($result->status) === 'failed') {
+                    $status = strtoupper($result->status);
+                    if ($status !== 'PASSED EXAM' && $status !== 'PASSED') {
                         if (empty($result->daiya_rank) || $result->daiya_rank !== 'Not Eligible') {
                             $result->update(['daiya_rank' => 'Not Eligible']);
                         }
@@ -166,7 +180,8 @@ class AdminController extends Controller
                 foreach ($branchedResults as $branchCode => $studentsInBranch) {
                     $collegeRank = 1;
                     foreach ($studentsInBranch as $result) {
-                        if (strtolower($result->status) === 'failed') {
+                        $status = strtoupper($result->status);
+                        if ($status !== 'PASSED EXAM' && $status !== 'PASSED') {
                             if (empty($result->college_rank) || $result->college_rank !== 'Not Eligible') {
                                 $result->update(['college_rank' => 'Not Eligible']);
                             }

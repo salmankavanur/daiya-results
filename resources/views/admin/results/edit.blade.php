@@ -47,8 +47,10 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-400 mb-2">Status</label>
                             <select name="status" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-xl focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="Passed" {{ strtolower(old('status', $result->status)) == 'passed' ? 'selected' : '' }}>Passed</option>
-                                <option value="Failed" {{ strtolower(old('status', $result->status)) == 'failed' ? 'selected' : '' }}>Failed</option>
+                                <option value="PASSED EXAM" {{ strtoupper(old('status', $result->status)) == 'PASSED EXAM' ? 'selected' : '' }}>Pass: PASSED EXAM</option>
+                                <option value="NOT ELIGIBLE" {{ strtoupper(old('status', $result->status)) == 'NOT ELIGIBLE' ? 'selected' : '' }}>Fail: NOT ELIGIBLE</option>
+                                <option value="MALLICIOUS ACTIVITY BY THE STUDENT LIKE DOING COPY IN B/W EXAM" {{ strtoupper(old('status', $result->status)) == 'MALLICIOUS ACTIVITY BY THE STUDENT LIKE DOING COPY IN B/W EXAM' ? 'selected' : '' }}>Debar: MALLICIOUS ACTIVITY...</option>
+                                <option value="NO CE MARK FOR SUBJECTS OR NOT COMPLETED TEACHING PRACTICE/THESIS IF THE STUDENT IS A FINAL YEAR STUDENT" {{ strtoupper(old('status', $result->status)) == 'NO CE MARK FOR SUBJECTS OR NOT COMPLETED TEACHING PRACTICE/THESIS IF THE STUDENT IS A FINAL YEAR STUDENT' ? 'selected' : '' }}>Withheld: NO CE MARK...</option>
                             </select>
                             @error('status') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
