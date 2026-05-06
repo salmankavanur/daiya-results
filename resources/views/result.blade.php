@@ -180,7 +180,7 @@
                                 <svg class="w-12 h-12 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                             </div>
                             <p class="text-indigo-300 print:text-gray-500 text-sm print:text-xs font-medium mb-2 print:mb-1 uppercase tracking-widest relative z-10">Daiya Rank</p>
-                            <p class="text-3xl print:text-xl font-black text-white print:text-black relative z-10">#{{ $result->daiya_rank }}</p>
+                            <p class="text-3xl print:text-xl font-black text-white print:text-black relative z-10">{{ is_numeric($result->daiya_rank) ? '#' : '' }}{{ $result->daiya_rank }}</p>
                         </div>
                         @endif
 
@@ -190,7 +190,7 @@
                                 <svg class="w-12 h-12 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m3-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
                             <p class="text-purple-300 print:text-gray-500 text-sm print:text-xs font-medium mb-2 print:mb-1 uppercase tracking-widest relative z-10">College Rank</p>
-                            <p class="text-3xl print:text-xl font-black text-white print:text-black relative z-10">#{{ $result->college_rank }}</p>
+                            <p class="text-3xl print:text-xl font-black text-white print:text-black relative z-10">{{ is_numeric($result->college_rank) ? '#' : '' }}{{ $result->college_rank }}</p>
                         </div>
                         @endif
 
