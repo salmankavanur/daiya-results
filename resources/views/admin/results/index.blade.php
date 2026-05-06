@@ -63,10 +63,10 @@
                                     <td class="py-4 px-6 text-indigo-300 font-medium">{{ $result->batch }}</td>
                                     <td class="py-4 px-6 text-center font-bold text-white">{{ $result->total_obt_marks ?? '-' }}</td>
                                     <td class="py-4 px-6 text-center">
-                                        @if(strtoupper($result->status) == 'PASSED EXAM' || strtoupper($result->status) == 'PASSED' || strtoupper($result->status) == 'PASS')
+                                        @if(strtolower($result->status) == 'passed' || strtolower($result->status) == 'pass')
                                             <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-xs font-bold uppercase">Passed</span>
                                         @else
-                                            <span class="px-3 py-1 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-lg text-[10px] font-bold uppercase block max-w-[200px] truncate" title="{{ $result->status }}">{{ $result->status }}</span>
+                                            <span class="px-3 py-1 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-full text-xs font-bold uppercase">{{ $result->status }}</span>
                                         @endif
                                     </td>
                                     <td class="py-4 px-6 text-right">
@@ -117,7 +117,7 @@
                                                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                                                             <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
                                                                 <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Status</div>
-                                                                <div class="text-xl font-bold {{ in_array(strtoupper($result->status), ['PASSED EXAM', 'PASSED', 'PASS']) ? 'text-emerald-400' : 'text-rose-400' }}">{{ $result->status }}</div>
+                                                                <div class="text-xl font-bold {{ strtolower($result->status) == 'passed' ? 'text-emerald-400' : 'text-rose-400' }}">{{ strtoupper($result->status) }}</div>
                                                             </div>
                                                             <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
                                                                 <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Score</div>
