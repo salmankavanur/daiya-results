@@ -139,20 +139,32 @@ class AdminController extends Controller
                     );
                 }
 
-                // Auto-calculate ranks for this batch if empty
+                // Auto-calculate Daiya rank (overall within batch) if empty
                 $batchResults = ExamResult::where('batch', $sheetName)
                                           ->orderByRaw('CAST(total_obt_marks AS DECIMAL(10,2)) DESC')
                                           ->get();
-                $rank = 1;
+                
+                $daiyaRank = 1;
                 foreach ($batchResults as $result) {
-                    $updates = [];
-                    if (empty($result->daiya_rank)) $updates['daiya_rank'] = $rank;
-                    if (empty($result->college_rank)) $updates['college_rank'] = $rank;
-                    
-                    if (!empty($updates)) {
-                        $result->update($updates);
+                    if (empty($result->daiya_rank)) {
+                        $result->update(['daiya_rank' => $daiyaRank]);
                     }
-                    $rank++;
+                    $daiyaRank++;
+                }
+
+                // Auto-calculate College rank (within branch, based on first two chars of reg_no) if empty
+                $branchedResults = $batchResults->groupBy(function($item) {
+                    return substr($item->reg_no, 0, 2);
+                });
+
+                foreach ($branchedResults as $branchCode => $studentsInBranch) {
+                    $collegeRank = 1;
+                    foreach ($studentsInBranch as $result) {
+                        if (empty($result->college_rank)) {
+                            $result->update(['college_rank' => $collegeRank]);
+                        }
+                        $collegeRank++;
+                    }
                 }
             }
 
