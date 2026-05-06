@@ -107,7 +107,7 @@ class AdminController extends Controller
                             $calculatedTotalObt += $subjectTotal;
                             
                             // Basic pass criteria assumption (>= 35)
-                            if ($subjectTotal > 0 && $subjectTotal < 35) {
+                            if ($subjectTotal < 35) {
                                 $passedAll = false;
                             }
                         }

@@ -59,7 +59,7 @@ class ResultManagementController extends Controller
                 $subTotal += (float) $marks['CE'];
             }
             $calculatedTotalObt += $subTotal;
-            if ($subTotal > 0 && $subTotal < 35) {
+            if ($subTotal < 35) {
                 $passedAll = false;
             }
         }
