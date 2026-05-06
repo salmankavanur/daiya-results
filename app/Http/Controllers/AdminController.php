@@ -146,10 +146,16 @@ class AdminController extends Controller
                 
                 $daiyaRank = 1;
                 foreach ($batchResults as $result) {
-                    if (empty($result->daiya_rank)) {
-                        $result->update(['daiya_rank' => $daiyaRank]);
+                    if (strtolower($result->status) === 'failed') {
+                        if (empty($result->daiya_rank) || $result->daiya_rank !== 'Not Eligible') {
+                            $result->update(['daiya_rank' => 'Not Eligible']);
+                        }
+                    } else {
+                        if (empty($result->daiya_rank) || $result->daiya_rank === 'Not Eligible') {
+                            $result->update(['daiya_rank' => (string)$daiyaRank]);
+                        }
+                        $daiyaRank++;
                     }
-                    $daiyaRank++;
                 }
 
                 // Auto-calculate College rank (within branch, based on first two chars of reg_no) if empty
@@ -160,10 +166,16 @@ class AdminController extends Controller
                 foreach ($branchedResults as $branchCode => $studentsInBranch) {
                     $collegeRank = 1;
                     foreach ($studentsInBranch as $result) {
-                        if (empty($result->college_rank)) {
-                            $result->update(['college_rank' => $collegeRank]);
+                        if (strtolower($result->status) === 'failed') {
+                            if (empty($result->college_rank) || $result->college_rank !== 'Not Eligible') {
+                                $result->update(['college_rank' => 'Not Eligible']);
+                            }
+                        } else {
+                            if (empty($result->college_rank) || $result->college_rank === 'Not Eligible') {
+                                $result->update(['college_rank' => (string)$collegeRank]);
+                            }
+                            $collegeRank++;
                         }
-                        $collegeRank++;
                     }
                 }
             }
