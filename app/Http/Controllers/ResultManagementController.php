@@ -40,6 +40,7 @@ class ResultManagementController extends Controller
             'name' => 'required|string|max:255',
             'reg_no' => 'required|string|max:100',
             'batch' => 'required|string|max:100',
+            'dob' => 'nullable|date',
             'marks_data' => 'nullable|array',
             'status' => 'required|string'
         ]);
@@ -70,6 +71,7 @@ class ResultManagementController extends Controller
             'name' => $request->name,
             'reg_no' => $request->reg_no,
             'batch' => $request->batch,
+            'dob' => $request->dob,
             'marks_data' => $marksData,
             'total_obt_marks' => $calculatedTotalObt,
             'total_marks' => $totalPossibleMarks,

@@ -109,7 +109,13 @@
                                                             <div>
                                                                 <div class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-1">Student Profile &bull; {{ $result->batch }}</div>
                                                                 <h3 class="text-3xl font-extrabold text-white leading-tight">{{ $result->name }}</h3>
-                                                                <p class="text-gray-400 font-mono mt-1">{{ $result->reg_no }}</p>
+                                                                <div class="flex items-center gap-3 mt-1">
+                                                                    <p class="text-gray-400 font-mono">{{ $result->reg_no }}</p>
+                                                                    @if($result->dob)
+                                                                        <span class="text-gray-600">&bull;</span>
+                                                                        <p class="text-gray-400 font-mono" title="Date of Birth">DOB: {{ \Carbon\Carbon::parse($result->dob)->format('d/m/Y') }}</p>
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
 

@@ -36,6 +36,13 @@
                             @error('reg_no') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                         </div>
 
+                        <!-- Date of Birth -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Date of Birth</label>
+                            <input type="date" name="dob" value="{{ old('dob', $result->dob) }}" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-xl focus:ring-indigo-500 focus:border-indigo-500 [color-scheme:dark]">
+                            @error('dob') <p class="text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
+                        </div>
+
                         <!-- Batch -->
                         <div>
                             <label class="block text-sm font-medium text-gray-400 mb-2">Batch / Sheet Name</label>
