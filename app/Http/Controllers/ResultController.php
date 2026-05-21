@@ -15,13 +15,16 @@ class ResultController extends Controller
     public function search(Request $request)
     {
         $request->validate([
-            'reg_no' => 'required|string|max:50'
+            'reg_no' => 'required|string|max:50',
+            'dob' => 'required|date'
         ]);
 
-        $result = ExamResult::where('reg_no', trim($request->reg_no))->first();
+        $result = ExamResult::where('reg_no', trim($request->reg_no))
+                            ->where('dob', $request->dob)
+                            ->first();
 
         if (!$result) {
-            return redirect()->back()->with('error', 'No result found for the given Registration Number.');
+            return redirect()->back()->with('error', 'No result found for the given Registration Number and Date of Birth combination.');
         }
 
         return view('result', compact('result'));

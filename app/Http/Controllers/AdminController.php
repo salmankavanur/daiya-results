@@ -71,6 +71,7 @@ class AdminController extends Controller
                 $daiyaRankIdx = null;
                 $collegeRankIdx = null;
                 $statusIdx = null;
+                $dobIdx = null;
 
                 for ($i = 2; $i < count($headers); $i++) {
                     $header = strtolower(trim($headers[$i] ?? ''));
@@ -79,6 +80,7 @@ class AdminController extends Controller
                     if (str_starts_with($header, 'daiya rank')) $daiyaRankIdx = $i;
                     if (str_starts_with($header, 'college rank')) $collegeRankIdx = $i;
                     if ($header === 'status') $statusIdx = $i;
+                    if ($header === 'date of birth' || $header === 'd/b' || $header === 'dob') $dobIdx = $i;
                 }
 
                 for ($r = 3; $r < count($rows); $r++) {
@@ -123,6 +125,20 @@ class AdminController extends Controller
                     $excelDaiyaRank = $daiyaRankIdx !== null ? trim($row[$daiyaRankIdx] ?? '') : '';
                     $excelCollegeRank = $collegeRankIdx !== null ? trim($row[$collegeRankIdx] ?? '') : '';
                     $excelStatus = $statusIdx !== null ? trim($row[$statusIdx] ?? '') : '';
+                    $excelDob = $dobIdx !== null ? trim($row[$dobIdx] ?? '') : '';
+
+                    $parsedDob = null;
+                    if (!empty($excelDob)) {
+                        try {
+                            if (is_numeric($excelDob)) {
+                                $parsedDob = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($excelDob)->format('Y-m-d');
+                            } else {
+                                $parsedDob = \Carbon\Carbon::parse($excelDob)->format('Y-m-d');
+                            }
+                        } catch (\Exception $e) {
+                            $parsedDob = null;
+                        }
+                    }
                     
                     // Standardize status strings
                     $mappedStatus = '';
@@ -142,6 +158,7 @@ class AdminController extends Controller
                         [
                             'batch' => $sheetName,
                             'name' => $name,
+                            'dob' => $parsedDob,
                             'marks_data' => $marksData,
                             'total_marks' => $excelTotalMarks !== '' ? $excelTotalMarks : $totalPossibleMarks,
                             'total_obt_marks' => $excelTotalObt !== '' ? $excelTotalObt : $calculatedTotalObt,

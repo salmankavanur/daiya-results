@@ -126,6 +126,20 @@
                         @enderror
                     </div>
 
+                    <div>
+                        <div class="relative glowing-input rounded-2xl bg-gray-900/50 border border-gray-700">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <input type="date" name="dob" id="dob" class="block w-full pl-12 pr-4 py-4 bg-transparent border-none text-white placeholder-gray-500 focus:ring-0 sm:text-lg font-medium [color-scheme:dark]" required>
+                        </div>
+                        @error('dob')
+                            <p class="mt-2 text-sm text-red-400 pl-2">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <button type="submit" class="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-white font-bold text-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-gray-900 transition-all duration-300 shadow-lg shadow-indigo-500/25 group">
                         Access Result
                         <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
