@@ -96,8 +96,8 @@
                     </div>
 
                     <!-- Report Header -->
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-8 mb-10 print:pb-4 print:mb-6 print:border-gray-200 relative z-10">
-                        <div>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-8 mb-10 print:pb-4 print:mb-6 print:border-gray-200 relative z-10 print:block print:text-center">
+                        <div class="print:w-full">
                             <div class="inline-block px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-bold tracking-widest uppercase mb-4 print:hidden">
                                 Official Statement of Marks
                             </div>
@@ -105,8 +105,8 @@
                             <p class="text-xl text-gray-300 font-semibold print:text-black print:text-sm mb-1">ODD SEMESTER EXAMINATION - OCTOBER 25 (Preparatory First Semester)</p>
                             <p class="text-lg text-gray-400 font-medium print:text-gray-600 print:text-sm">Batch: {{ $result->batch }}</p>
                         </div>
-                        <div class="mt-6 md:mt-0 text-right">
-                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%236366f1' stroke-width='4' fill='none'/><path d='M30 50 L45 65 L70 35' stroke='%238b5cf6' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>" class="w-20 h-20 ml-auto opacity-80 print-hidden" alt="Verified Seal">
+                        <div class="mt-6 md:mt-0 text-right print:hidden">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%236366f1' stroke-width='4' fill='none'/><path d='M30 50 L45 65 L70 35' stroke='%238b5cf6' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>" class="w-20 h-20 ml-auto opacity-80" alt="Verified Seal">
                         </div>
                     </div>
 
