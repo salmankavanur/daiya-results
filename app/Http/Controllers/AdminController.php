@@ -75,12 +75,13 @@ class AdminController extends Controller
 
                 for ($i = 2; $i < count($headers); $i++) {
                     $header = strtolower(trim($headers[$i] ?? ''));
-                    if (str_starts_with($header, 'total marks')) $totalMarksIdx = $i;
-                    if (str_starts_with($header, 'total obt')) $totalObtMarksIdx = $i;
-                    if (str_starts_with($header, 'daiya rank')) $daiyaRankIdx = $i;
-                    if (str_starts_with($header, 'college rank')) $collegeRankIdx = $i;
-                    if ($header === 'status') $statusIdx = $i;
-                    if ($header === 'date of birth' || $header === 'd/b' || $header === 'dob') $dobIdx = $i;
+                    $headerNormalized = preg_replace('/\s+/', ' ', $header);
+                    if (str_starts_with($headerNormalized, 'total marks')) $totalMarksIdx = $i;
+                    if (str_starts_with($headerNormalized, 'total obt')) $totalObtMarksIdx = $i;
+                    if (str_starts_with($headerNormalized, 'daiya rank')) $daiyaRankIdx = $i;
+                    if (str_starts_with($headerNormalized, 'college rank')) $collegeRankIdx = $i;
+                    if ($headerNormalized === 'status') $statusIdx = $i;
+                    if ($headerNormalized === 'date of birth' || $headerNormalized === 'd/b' || $headerNormalized === 'dob') $dobIdx = $i;
                 }
 
                 for ($r = 3; $r < count($rows); $r++) {
