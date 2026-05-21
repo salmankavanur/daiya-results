@@ -3,7 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daiya Results Portal</title>
+    <title>Daiya Results Portal - Check Daiya Islamic Academy Exam Results</title>
+    <meta name="description" content="Official examination results portal for Daiya Islamic Academy for Women. Check your academic performance, marks, and ranks securely online.">
+    <meta name="keywords" content="daiya result, Daiya Islamic Academy for Women results, Daiya exams, academic performance, marksheet">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Daiya Results Portal - Check Exam Results">
+    <meta property="og:description" content="Official examination results portal for Daiya Islamic Academy for Women. Check your academic performance, marks, and ranks securely online.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    
+    <link rel="canonical" href="{{ url('/') }}">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
