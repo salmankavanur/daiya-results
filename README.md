@@ -1,59 +1,207 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Daiya Results Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A comprehensive web-based results management system built with Laravel, designed for managing and publishing examination results efficiently.
 
-## About Laravel
+## 🚀 Quick Start
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Install dependencies: `composer install` and `npm install`
+2. Copy environment file: `cp .env.example .env`
+3. Generate application key: `php artisan key:generate`
+4. Run migrations and seed the database: `php artisan migrate --seed`
+   - *Default Admin Login:* `test@example.com` / `password`
+5. Compile assets: `npm run dev`
+6. Start development server: `php artisan serve`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🌟 Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Results Management**: Upload, update, and manage student examination results securely.
+- **Student Dashboard**: Portal for students to view and download their results.
+- **Admin Panel**: Comprehensive dashboard for administrators to manage courses, students, and marks.
+- **Data Export/Import**: Export and import marks via Excel/CSV (e.g., *MARK LIST OF DAIYA EVEN SEMESTER EXAMINATION*).
+- **Role-based Access Control**: Different access levels for Admins, Teachers, and Students.
+- **Responsive Design**: Mobile-friendly user interface built with modern CSS frameworks (Tailwind CSS).
 
-## Learning Laravel
+## 💻 Technology Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- **Backend**: Laravel (PHP)
+- **Frontend**: Blade Templates, Tailwind CSS, JavaScript
+- **Database**: MySQL / MariaDB
+- **Build Tool**: Vite
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ⚙️ Environment Configuration
 
-## Laravel Sponsors
+For deployment and local setup, copy the environment variables below into your `.env` file:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```env
+APP_NAME="Daiya Results Management System"
+APP_ENV=production
+APP_KEY=base64:your_generated_app_key_here
+APP_DEBUG=false
+APP_URL=https://your-production-domain.com
 
-### Premium Partners
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=daiya_results_db
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_secure_password
 
-## Contributing
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🌐 Production Level Deployment Guide
 
-## Code of Conduct
+Deploying the Daiya Results Management System requires a robust server setup. Below is the guide for deploying to a standard Linux server (e.g., Ubuntu) using Nginx and PHP-FPM.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 1. Pre-deployment Steps
 
-## Security Vulnerabilities
+1. SSH into your server.
+2. Ensure PHP 8.x, Composer, Nginx, and MySQL are installed.
+3. Clone the repository into your web directory (e.g., `/var/www/daiya-results`).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cd /var/www
+git clone <repository-url> daiya-results
+cd daiya-results
+```
 
-## License
+### 2. Application Setup
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. **Install Composer Dependencies**:
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   ```
+
+2. **Install NPM Dependencies & Build Assets**:
+   ```bash
+   npm install
+   npm run build
+   ```
+
+3. **Environment Variables**:
+   Create the `.env` file with your **Production** values.
+   ```bash
+   cp .env.example .env
+   nano .env
+   # Update DB credentials, APP_ENV=production, APP_DEBUG=false
+   ```
+
+4. **Generate Application Key**:
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Run Database Migrations & Seed**:
+   ```bash
+   php artisan migrate --force --seed
+   ```
+   > ⚠️ **Security Note:** The seeder creates a default admin account with email `test@example.com` and password `password`. **Change this immediately** after your first login!
+
+6. **Optimize Configuration & Routes**:
+   ```bash
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+
+### 3. Directory Permissions
+
+Ensure your application has the correct permissions to write cache, uploads, and logs. Create the log file and set required permissions:
+
+```bash
+# Navigate to the project root
+cd /var/www/daiya-results
+
+# Set ownership to the web server user (e.g., www-data for Nginx/Apache)
+sudo chown -R www-data:www-data .
+
+# Set proper directory permissions
+sudo find . -type d -exec chmod 755 {} \;
+sudo find . -type f -exec chmod 644 {} \;
+
+# Set write permissions for storage and bootstrap/cache
+sudo chmod -R ugo+rw storage
+touch storage/logs/laravel.log
+sudo chmod -R ugo+rw storage
+sudo chmod -R ugo+rw bootstrap/cache
+```
+
+### 4. Reverse Proxy Setup (Nginx)
+
+To serve your application on port 80/443, configure an Nginx server block:
+
+```nginx
+server {
+    listen 80;
+    server_name your-production-domain.com;
+    root /var/www/daiya-results/public;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock; # adjust PHP version accordingly
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+Enable the site and restart Nginx:
+```bash
+sudo ln -s /etc/nginx/sites-available/daiya-results /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+## 📂 Project Structure
+
+```
+├── app/                    # Controllers, Models, Middleware
+├── bootstrap/              # App bootstrap and cache
+├── config/                 # Application configuration
+├── database/               # Migrations, Seeders, Factories
+├── public/                 # Web root, compiled assets (index.php)
+├── resources/              # Blade views, raw CSS/JS assets
+├── routes/                 # Web and API routes
+├── storage/                # Logs, compiled views, file uploads
+└── tests/                  # PHPUnit tests
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
