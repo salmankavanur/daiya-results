@@ -103,7 +103,7 @@
                             </div>
                             <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-3 print:text-black print:text-xl print:mb-1">Daiya Islamic Academy for Women - Exam Results</h1>
                             <p class="text-xl text-gray-300 font-semibold print:text-black print:text-sm mb-1">DAIYA EVEN SEMESTER EXAMINATION - APRIL 26</p>
-                            <p class="text-lg text-gray-400 font-medium print:text-gray-600 print:text-sm">Batch: {{ $result->batch }}</p>
+                            <p class="text-lg text-gray-400 font-medium print:text-gray-600 print:text-sm">Class: {{ $result->batch }}</p>
                         </div>
                         <div class="mt-6 md:mt-0 text-right print:hidden">
                             <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%236366f1' stroke-width='4' fill='none'/><path d='M30 50 L45 65 L70 35' stroke='%238b5cf6' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>" class="w-20 h-20 ml-auto opacity-80" alt="Verified Seal">
