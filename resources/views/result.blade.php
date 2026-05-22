@@ -231,7 +231,7 @@
                                 @endif
                             </div>
                             <p class="{{ $isPass ? 'text-emerald-300/80 print:text-gray-500' : 'text-rose-300/80 print:text-gray-500' }} text-xs sm:text-sm print:text-[10px] font-medium mb-1 sm:mb-2 print:mb-0 uppercase tracking-widest relative z-10">Final Status</p>
-                            <p class="text-lg sm:text-2xl md:text-3xl print:text-lg font-black text-white print:text-black uppercase relative z-10 tracking-wide break-words">{{ $result->status }}</p>
+                            <p class="text-xl sm:text-2xl print:text-lg font-black text-white print:text-black uppercase relative z-10 tracking-wide whitespace-nowrap">{{ $result->status }}</p>
                         </div>
                         @endif
                     </div>
