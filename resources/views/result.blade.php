@@ -187,7 +187,7 @@
                     <!-- Final Summary Metrics -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-5 print:gap-2 relative z-10">
                         @if($result->total_marks || $result->total_obt_marks)
-                        <div class="data-card p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 relative overflow-hidden group print:border-gray-200">
+                        <div class="data-card p-4 sm:p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br from-slate-900 to-slate-950 border border-white/5 relative overflow-hidden group print:border-gray-200">
                             <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity print:hidden">
                                 <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                             </div>
@@ -197,7 +197,7 @@
                         @endif
 
                         @if($result->daiya_rank)
-                        <div class="data-card p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br from-indigo-900 to-indigo-950 border border-indigo-800 relative overflow-hidden group print:border-gray-200">
+                        <div class="data-card p-4 sm:p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br from-indigo-900 to-indigo-950 border border-indigo-800 relative overflow-hidden group print:border-gray-200">
                             <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity print:hidden">
                                 <svg class="w-12 h-12 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                             </div>
@@ -207,7 +207,7 @@
                         @endif
 
                         @if($result->college_rank)
-                        <div class="data-card p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br from-purple-900 to-purple-950 border border-purple-800 relative overflow-hidden group print:border-gray-200">
+                        <div class="data-card p-4 sm:p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br {{ $isPass ?? false ? 'from-emerald-900 to-emerald-950 border-emerald-800' : 'from-purple-900 to-purple-950 border-purple-800' }} border relative overflow-hidden group print:border-gray-200 print:bg-none">
                             <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity print:hidden">
                                 <svg class="w-12 h-12 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m3-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
@@ -222,7 +222,7 @@
                             $statusGradient = $isPass ? 'from-emerald-900 to-emerald-950 border-emerald-800 text-emerald-300 print:text-gray-500' : 'from-rose-900 to-rose-950 border-rose-800 text-rose-300 print:text-gray-500';
                             $iconColor = $isPass ? 'text-emerald-300' : 'text-rose-300';
                         @endphp
-                        <div class="data-card p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br {{ $statusGradient }} border relative overflow-hidden group print:border-gray-200">
+                        <div class="data-card p-4 sm:p-6 print:p-2 rounded-3xl print:rounded-lg bg-gradient-to-br {{ $statusGradient }} border relative overflow-hidden group print:border-gray-200">
                             <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity print:hidden">
                                 @if($isPass)
                                 <svg class="w-12 h-12 {{ $iconColor }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -230,8 +230,8 @@
                                 <svg class="w-12 h-12 {{ $iconColor }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 @endif
                             </div>
-                            <p class="{{ $isPass ? 'text-emerald-300/80 print:text-gray-500' : 'text-rose-300/80 print:text-gray-500' }} text-sm print:text-[10px] font-medium mb-2 print:mb-0 uppercase tracking-widest relative z-10">Final Status</p>
-                            <p class="text-xl sm:text-3xl print:text-lg font-black text-white print:text-black uppercase relative z-10 tracking-wide">{{ $result->status }}</p>
+                            <p class="{{ $isPass ? 'text-emerald-300/80 print:text-gray-500' : 'text-rose-300/80 print:text-gray-500' }} text-xs sm:text-sm print:text-[10px] font-medium mb-1 sm:mb-2 print:mb-0 uppercase tracking-widest relative z-10">Final Status</p>
+                            <p class="text-lg sm:text-2xl md:text-3xl print:text-lg font-black text-white print:text-black uppercase relative z-10 tracking-wide break-words">{{ $result->status }}</p>
                         </div>
                         @endif
                     </div>
