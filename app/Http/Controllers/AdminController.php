@@ -178,14 +178,14 @@ class AdminController extends Controller
                 $daiyaRank = 1;
                 foreach ($batchResults as $result) {
                     $status = strtoupper($result->status);
-                    if ($status !== 'PASSED') {
-                        if (empty($result->daiya_rank) || $result->daiya_rank !== 'Not Eligible') {
+                    if (is_null($result->daiya_rank)) {
+                        if ($status !== 'PASSED') {
                             $result->update(['daiya_rank' => 'Not Eligible']);
-                        }
-                    } else {
-                        if (empty($result->daiya_rank) || $result->daiya_rank === 'Not Eligible') {
+                        } else {
                             $result->update(['daiya_rank' => (string)$daiyaRank]);
                         }
+                    }
+                    if ($status === 'PASSED') {
                         $daiyaRank++;
                     }
                 }
@@ -199,14 +199,14 @@ class AdminController extends Controller
                     $collegeRank = 1;
                     foreach ($studentsInBranch as $result) {
                         $status = strtoupper($result->status);
-                        if ($status !== 'PASSED') {
-                            if (empty($result->college_rank) || $result->college_rank !== 'Not Eligible') {
+                        if (is_null($result->college_rank)) {
+                            if ($status !== 'PASSED') {
                                 $result->update(['college_rank' => 'Not Eligible']);
-                            }
-                        } else {
-                            if (empty($result->college_rank) || $result->college_rank === 'Not Eligible') {
+                            } else {
                                 $result->update(['college_rank' => (string)$collegeRank]);
                             }
+                        }
+                        if ($status === 'PASSED') {
                             $collegeRank++;
                         }
                     }
