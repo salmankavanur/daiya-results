@@ -102,7 +102,7 @@
                                 Official Statement of Marks
                             </div>
                             <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-3 print:text-black print:text-xl print:mb-1">Daiya Islamic Academy for Women - Exam Results</h1>
-                            <p class="text-xl text-gray-300 font-semibold print:text-black print:text-sm mb-1">ODD SEMESTER EXAMINATION - OCTOBER 25 (Preparatory First Semester)</p>
+                            <p class="text-xl text-gray-300 font-semibold print:text-black print:text-sm mb-1">DAIYA EVEN SEMESTER EXAMINATION - APRIL 26</p>
                             <p class="text-lg text-gray-400 font-medium print:text-gray-600 print:text-sm">Batch: {{ $result->batch }}</p>
                         </div>
                         <div class="mt-6 md:mt-0 text-right print:hidden">
