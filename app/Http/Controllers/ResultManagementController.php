@@ -53,11 +53,10 @@ class ResultManagementController extends Controller
         
         foreach ($marksData as $subject => &$marks) {
             $subTotal = 0;
-            if (isset($marks['TE']) && $marks['TE'] !== '') {
-                $subTotal += (float) $marks['TE'];
-            }
-            if (isset($marks['CE']) && $marks['CE'] !== '') {
-                $subTotal += (float) $marks['CE'];
+            foreach ($marks as $type => $val) {
+                if ($val !== '') {
+                    $subTotal += (float) $val;
+                }
             }
             $calculatedTotalObt += $subTotal;
             if ($subTotal < 35) {

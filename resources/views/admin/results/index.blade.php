@@ -142,26 +142,41 @@
                                                         <!-- Detailed Marks -->
                                                         <div class="rounded-2xl border border-white/10 overflow-hidden bg-white/5">
                                                             <table class="w-full text-left">
+                                                                @php
+                                                                    $components = [];
+                                                                    foreach($result->marks_data as $marks) {
+                                                                        if(is_array($marks)) {
+                                                                            foreach(array_keys($marks) as $key) {
+                                                                                if(!in_array($key, $components)) {
+                                                                                    $components[] = $key;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                @endphp
                                                                 <thead class="bg-black/20">
                                                                     <tr>
                                                                         <th class="py-3 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Subject</th>
-                                                                        <th class="py-3 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">TE</th>
-                                                                        <th class="py-3 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">CE</th>
+                                                                        @foreach($components as $comp)
+                                                                        <th class="py-3 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">{{ $comp }}</th>
+                                                                        @endforeach
                                                                         <th class="py-3 px-5 text-xs font-semibold text-indigo-300 uppercase tracking-wider text-center">Total</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class="divide-y divide-white/5">
                                                                     @foreach($result->marks_data as $subject => $marks)
                                                                         @php
-                                                                            $te = is_numeric($marks['TE'] ?? 0) ? (float)($marks['TE'] ?? 0) : 0;
-                                                                            $ce = is_numeric($marks['CE'] ?? 0) ? (float)($marks['CE'] ?? 0) : 0;
-                                                                            $subTotal = $te + $ce;
+                                                                            $subTotal = 0;
+                                                                            foreach($components as $comp) {
+                                                                                $subTotal += is_numeric($marks[$comp] ?? 0) ? (float)($marks[$comp] ?? 0) : 0;
+                                                                            }
                                                                         @endphp
                                                                         <tr class="hover:bg-white/5 transition-colors">
-                                                                            <td class="py-3 px-5 text-sm font-medium text-gray-200">{{ $subject }}</td>
-                                                                            <td class="py-3 px-5 text-sm text-center text-gray-400 font-mono">{{ $marks['TE'] ?? '-' }}</td>
-                                                                            <td class="py-3 px-5 text-sm text-center text-gray-400 font-mono">{{ $marks['CE'] ?? '-' }}</td>
-                                                                            <td class="py-3 px-5 text-sm text-center font-bold text-white font-mono">{{ $subTotal > 0 ? $subTotal : '-' }}</td>
+                                                                            <td class="py-3 px-5 text-sm font-medium text-white">{{ $subject }}</td>
+                                                                            @foreach($components as $comp)
+                                                                            <td class="py-3 px-5 text-sm text-center text-gray-400 font-mono">{{ $marks[$comp] ?? '-' }}</td>
+                                                                            @endforeach
+                                                                            <td class="py-3 px-5 text-sm text-center font-bold text-white font-mono bg-indigo-500/10">{{ $subTotal > 0 ? $subTotal : '-' }}</td>
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>

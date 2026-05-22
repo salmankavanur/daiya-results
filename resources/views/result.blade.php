@@ -141,25 +141,40 @@
                         <div class="data-card rounded-3xl overflow-hidden print:rounded-xl">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left border-collapse min-w-[500px]">
+                                    @php
+                                        $components = [];
+                                        foreach($result->marks_data as $marks) {
+                                            if(is_array($marks)) {
+                                                foreach(array_keys($marks) as $key) {
+                                                    if(!in_array($key, $components)) {
+                                                        $components[] = $key;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    @endphp
                                     <thead>
                                         <tr class="border-b border-white/5 bg-white/5 print:bg-gray-100 print:border-gray-200">
                                             <th class="py-4 px-5 sm:py-5 sm:px-8 print:py-2 print:px-4 font-semibold text-gray-300 print:text-gray-700 uppercase tracking-wider text-xs sm:text-sm print:text-xs">Subject</th>
-                                            <th class="py-4 px-4 sm:py-5 sm:px-6 print:py-2 print:px-4 font-semibold text-gray-300 print:text-gray-700 uppercase tracking-wider text-xs sm:text-sm print:text-xs text-center">Term End (TE)</th>
-                                            <th class="py-4 px-4 sm:py-5 sm:px-6 print:py-2 print:px-4 font-semibold text-gray-300 print:text-gray-700 uppercase tracking-wider text-xs sm:text-sm print:text-xs text-center">Cont. Eval (CE)</th>
+                                            @foreach($components as $comp)
+                                            <th class="py-4 px-4 sm:py-5 sm:px-6 print:py-2 print:px-4 font-semibold text-gray-300 print:text-gray-700 uppercase tracking-wider text-xs sm:text-sm print:text-xs text-center">{{ $comp }}</th>
+                                            @endforeach
                                             <th class="py-4 px-5 sm:py-5 sm:px-8 print:py-2 print:px-4 font-semibold text-indigo-300 print:text-black uppercase tracking-wider text-xs sm:text-sm print:text-xs text-center bg-indigo-500/10 print:bg-gray-200">Total</th>
                                         </tr>
                                     </thead>
                                 <tbody>
                                     @foreach($result->marks_data as $subject => $marks)
                                         @php
-                                            $te = is_numeric($marks['TE'] ?? 0) ? (float)($marks['TE'] ?? 0) : 0;
-                                            $ce = is_numeric($marks['CE'] ?? 0) ? (float)($marks['CE'] ?? 0) : 0;
-                                            $subTotal = $te + $ce;
+                                            $subTotal = 0;
+                                            foreach($components as $comp) {
+                                                $subTotal += is_numeric($marks[$comp] ?? 0) ? (float)($marks[$comp] ?? 0) : 0;
+                                            }
                                         @endphp
                                         <tr class="border-b border-white/5 print:border-gray-200 table-row-hover transition-colors">
                                             <td class="py-4 px-5 sm:py-5 sm:px-8 print:py-2 print:px-4 font-medium text-gray-200 print:text-black text-sm print:text-sm">{{ $subject }}</td>
-                                            <td class="py-4 px-4 sm:py-5 sm:px-6 print:py-2 print:px-4 text-center text-gray-400 print:text-gray-800 font-mono text-sm print:text-sm">{{ $marks['TE'] ?? '-' }}</td>
-                                            <td class="py-4 px-4 sm:py-5 sm:px-6 print:py-2 print:px-4 text-center text-gray-400 print:text-gray-800 font-mono text-sm print:text-sm">{{ $marks['CE'] ?? '-' }}</td>
+                                            @foreach($components as $comp)
+                                            <td class="py-4 px-4 sm:py-5 sm:px-6 print:py-2 print:px-4 text-center text-gray-400 print:text-gray-800 font-mono text-sm print:text-sm">{{ $marks[$comp] ?? '-' }}</td>
+                                            @endforeach
                                             <td class="py-4 px-5 sm:py-5 sm:px-8 print:py-2 print:px-4 text-center font-bold text-white print:text-black font-mono bg-indigo-500/5 print:bg-transparent text-sm print:text-sm">{{ $subTotal > 0 ? $subTotal : '-' }}</td>
                                         </tr>
                                     @endforeach

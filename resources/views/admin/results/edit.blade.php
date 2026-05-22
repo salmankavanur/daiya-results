@@ -88,13 +88,13 @@
                                 <div class="w-full md:w-1/3">
                                     <span class="font-semibold text-gray-300 uppercase tracking-wider text-sm">{{ $subject }}</span>
                                 </div>
-                                <div class="w-full md:w-1/3 flex items-center gap-3">
-                                    <label class="text-xs text-gray-500 uppercase w-10">TE:</label>
-                                    <input type="number" step="0.01" name="marks_data[{{ $subject }}][TE]" value="{{ $marks['TE'] ?? '' }}" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-lg focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2 text-center" placeholder="Term End">
-                                </div>
-                                <div class="w-full md:w-1/3 flex items-center gap-3">
-                                    <label class="text-xs text-gray-500 uppercase w-10">CE:</label>
-                                    <input type="number" step="0.01" name="marks_data[{{ $subject }}][CE]" value="{{ $marks['CE'] ?? '' }}" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-lg focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2 text-center" placeholder="Cont. Eval">
+                                <div class="w-full md:flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    @foreach($marks as $type => $val)
+                                    <div class="flex items-center gap-3">
+                                        <label class="text-xs text-gray-500 uppercase w-10 text-right">{{ $type }}:</label>
+                                        <input type="number" step="0.01" name="marks_data[{{ $subject }}][{{ $type }}]" value="{{ $val }}" class="w-full bg-slate-900/50 border border-white/10 text-white rounded-lg focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2 text-center" placeholder="{{ $type }}">
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         @endforeach
