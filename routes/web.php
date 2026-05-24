@@ -11,6 +11,7 @@ Route::post('/search', [ResultController::class, 'search'])->name('search');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::post('/import', [AdminController::class, 'import'])->name('import');
+    Route::post('/settings/google-sheet-sync', [AdminController::class, 'updateGoogleSheetSettings'])->name('settings.google-sheet-sync.update');
     Route::post('/import/google-sheet', [AdminController::class, 'syncGoogleSheet'])->name('import.google-sheet');
     Route::delete('/clear', [AdminController::class, 'clear'])->name('clear');
 

@@ -98,13 +98,13 @@
 
                         <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-3">
                             <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M4 11h16M5 5h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"></path></svg>
-                            {{ __('Sync From Google Sheet URL') }}
+                            {{ __('Google Sheet Sync Settings') }}
                         </h3>
                         <p class="text-gray-400 mb-6">
-                            {{ __('Paste a Google Sheets URL to fetch all tabs and update student marks automatically. The sheet should be shared with view access.') }}
+                            {{ __('Manage Google Sheet URL, auto-sync toggle, and sync interval in minutes directly from admin panel.') }}
                         </p>
 
-                        <form action="{{ route('import.google-sheet') }}" method="POST" class="space-y-4">
+                        <form action="{{ route('settings.google-sheet-sync.update') }}" method="POST" class="space-y-4">
                             @csrf
                             <div>
                                 <label for="google_sheet_url" class="block text-sm font-medium text-gray-300 mb-2">Google Sheet URL</label>
@@ -112,8 +112,7 @@
                                     id="google_sheet_url"
                                     name="google_sheet_url"
                                     type="url"
-                                    required
-                                    value="{{ old('google_sheet_url', config('results.google_sheet_url')) }}"
+                                    value="{{ old('google_sheet_url', $syncSetting->google_sheet_url) }}"
                                     placeholder="https://docs.google.com/spreadsheets/d/..."
                                     class="w-full rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-gray-500 focus:border-emerald-500 focus:ring-emerald-500"
                                 >
@@ -122,11 +121,59 @@
                                 @enderror
                             </div>
 
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="sync_interval_minutes" class="block text-sm font-medium text-gray-300 mb-2">Sync Interval (minutes)</label>
+                                    <input
+                                        id="sync_interval_minutes"
+                                        name="sync_interval_minutes"
+                                        type="number"
+                                        min="5"
+                                        max="1440"
+                                        step="1"
+                                        required
+                                        value="{{ old('sync_interval_minutes', $syncSetting->sync_interval_minutes ?? 30) }}"
+                                        class="w-full rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-gray-500 focus:border-emerald-500 focus:ring-emerald-500"
+                                    >
+                                    @error('sync_interval_minutes')
+                                        <p class="mt-2 text-sm text-red-400">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="flex items-end">
+                                    <label class="inline-flex items-center gap-3 px-4 py-3 rounded-xl border border-white/10 bg-white/5 w-full">
+                                        <input type="checkbox" name="auto_sync_enabled" value="1" class="rounded border-white/20 text-emerald-500 focus:ring-emerald-500" {{ old('auto_sync_enabled', $syncSetting->auto_sync_enabled) ? 'checked' : '' }}>
+                                        <span class="text-sm font-medium text-gray-200">Enable Auto Sync</span>
+                                    </label>
+                                </div>
+                            </div>
+
                             <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white rounded-xl font-bold shadow-lg shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 focus:ring-offset-slate-900 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m14.356 2A8.001 8.001 0 004.582 9M20 20v-5h-.581m0 0A8.003 8.003 0 015.659 15"></path></svg>
-                                Sync Google Sheet Now
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Save Sync Settings
                             </button>
                         </form>
+
+                        <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <div class="text-xs text-gray-400">
+                                Last Synced:
+                                <span class="text-gray-200 font-medium">
+                                    {{ $syncSetting->last_synced_at ? $syncSetting->last_synced_at->format('d M Y, h:i A') : 'Never' }}
+                                </span>
+                            </div>
+
+                            <form action="{{ route('import.google-sheet') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 text-white rounded-xl font-bold shadow-lg shadow-cyan-500/25 transition-all transform hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-slate-900 flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m14.356 2A8.001 8.001 0 004.582 9M20 20v-5h-.581m0 0A8.003 8.003 0 015.659 15"></path></svg>
+                                    Sync Google Sheet Now
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="mt-3 text-xs text-gray-500">
+                            Auto sync runs by scheduler every minute and syncs only when your configured interval is due.
+                        </div>
+
                     </div>
                 </div>
 

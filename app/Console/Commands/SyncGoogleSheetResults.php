@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\GoogleSheetSyncSetting;
 use App\Services\ExamResultImportService;
 use Illuminate\Console\Command;
 use Throwable;
@@ -9,34 +10,38 @@ use Throwable;
 class SyncGoogleSheetResults extends Command
 {
     protected $signature = 'results:sync-google-sheet
-                            {url? : Google Sheet URL (optional when GOOGLE_SHEET_URL is configured)}
-                            {--force : Run even when GOOGLE_SHEET_AUTO_SYNC_ENABLED is false}';
+                            {url? : Google Sheet URL (optional, overrides saved admin URL)}
+                            {--force : Force sync even when auto sync is disabled or interval is not due}
+                            {--scheduled : Internal flag for scheduler-triggered run}';
 
     protected $description = 'Sync exam results directly from a Google Sheet URL';
 
     public function handle(ExamResultImportService $importService): int
     {
-        $inputUrl = trim((string) $this->argument('url'));
-        $configUrl = trim((string) config('results.google_sheet_url'));
+        $syncSetting = GoogleSheetSyncSetting::current();
 
-        $shouldUseAutoSyncFlag = $inputUrl === '';
-        if (
-            $shouldUseAutoSyncFlag &&
-            ! $this->option('force') &&
-            ! (bool) config('results.google_sheet_auto_sync_enabled')
-        ) {
-            $this->line('Auto sync is disabled. Skipping Google Sheet sync.');
+        $inputUrl = trim((string) $this->argument('url'));
+        $url = $inputUrl !== '' ? $inputUrl : trim((string) $syncSetting->google_sheet_url);
+
+        $isScheduledRun = (bool) $this->option('scheduled');
+        $isForcedRun = (bool) $this->option('force');
+
+        if ($isScheduledRun && ! $isForcedRun && ! $syncSetting->isDueForSync()) {
+            $this->line('Google Sheet sync skipped (not due yet or auto-sync disabled).');
             return self::SUCCESS;
         }
 
-        $url = $inputUrl !== '' ? $inputUrl : $configUrl;
         if ($url === '') {
-            $this->error('No Google Sheet URL provided. Pass a URL or set GOOGLE_SHEET_URL in .env.');
+            $this->error('No Google Sheet URL configured. Save it from admin panel or pass URL directly.');
             return self::FAILURE;
         }
 
         try {
             $summary = $importService->importFromGoogleSheetUrl($url);
+
+            $syncSetting->update([
+                'last_synced_at' => now(),
+            ]);
 
             $this->info('Google Sheet sync completed successfully.');
             $this->line('Sheets processed: '.($summary['sheets_processed'] ?? 0));
@@ -52,4 +57,3 @@ class SyncGoogleSheetResults extends Command
         }
     }
 }
-

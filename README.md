@@ -208,24 +208,23 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Google Sheet Sync
 
-You can sync results directly from a Google Sheet URL from the admin dashboard.
+You can configure and sync results directly from the admin dashboard.
 
 ### Manual sync
 
 1. Open Dashboard as admin.
-2. Paste a Google Sheet URL in Sync From Google Sheet URL.
+2. Add or update Google Sheet URL in Google Sheet Sync Settings.
+3. Save sync settings.
 3. Click Sync Google Sheet Now.
 
 The sheet should be viewable by link (public or shared with "Anyone with the link can view").
 
-### Automatic sync (every 30 minutes)
+### Automatic sync (dynamic interval)
 
-Add these values to your `.env`:
+Set these from the admin dashboard:
 
-```env
-GOOGLE_SHEET_URL=https://docs.google.com/spreadsheets/d/your-sheet-id/edit
-GOOGLE_SHEET_AUTO_SYNC_ENABLED=true
-```
+1. Enable Auto Sync.
+2. Set Sync Interval (minutes), such as 10, 15, 30, etc.
 
 Ensure Laravel scheduler is running on the server:
 
@@ -233,4 +232,4 @@ Ensure Laravel scheduler is running on the server:
 * * * * * php /path-to-project/artisan schedule:run >> /dev/null 2>&1
 ```
 
-The app schedules `results:sync-google-sheet` every 30 minutes and sync executes only when `GOOGLE_SHEET_AUTO_SYNC_ENABLED=true`.
+The app scheduler checks every minute and runs sync only when the configured interval is due.

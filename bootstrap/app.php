@@ -16,8 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         SyncGoogleSheetResults::class,
     ])
     ->withSchedule(function (Schedule $schedule): void {
-        $schedule->command('results:sync-google-sheet')
-            ->everyThirtyMinutes();
+        $schedule->command('results:sync-google-sheet --scheduled')
+            ->everyMinute();
     })
     ->withMiddleware(function (Middleware $middleware): void {
         //
